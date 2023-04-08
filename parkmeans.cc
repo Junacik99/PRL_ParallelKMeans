@@ -29,10 +29,12 @@ int main(int argc, char** argv){
 	}
 
 	// int n = sendbuf.size();
+    for (int x : sendbuf)
+        std::cout << x << " ";
+    std::cout<<std::endl;
 
-	int rank, size;
-
-		
+    // Get rank and size
+	int rank, size;	
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &size);
 
