@@ -12,7 +12,6 @@
 #include <string>
 #include <cmath>
 
-// TODO: prerobit classu, aby zodpovedala c++ praktikam
 class Cluster
 {
 public:
@@ -49,6 +48,27 @@ int main(int argc, char **argv)
 	{
 		sendbuf.push_back(static_cast<unsigned char>(c));
 	}
+
+	// Check if there are at least 4 processors or numbers in the input
+	// TODO: uncomment
+	// if (size < clusterCount){
+	// 	printf("Insufficient number of processors (%d)\n", size);
+	// 	return 1;
+	// }
+
+	// Check if size of the input is less than the number of processors
+	if (sendbuf.size() < size){
+		printf("Size of the input (%ld) is less than the number of processors (%d)\n", sendbuf.size(), size);
+		return 1;
+	}
+
+	// Check if size of the input is greater than the number of processors
+	// If yes, consider only first N numbers, where N is the number of processors
+	// TODO: uncomment
+	// if (sendbuf.size() > size){
+	// 	sendbuf.resize(size);
+	// 	sendbuf.erase(sendbuf.begin() + size, sendbuf.end());
+	// }
 
 	// K-means
 	// 1. Select 4 random distinct numbers (cluster means)
