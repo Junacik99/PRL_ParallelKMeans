@@ -51,13 +51,13 @@ int main(int argc, char **argv)
 
 	// Check if there are at least 4 processors or numbers in the input
 	// TODO: uncomment
-	// if (size < clusterCount){
-	// 	printf("Insufficient number of processors (%d)\n", size);
-	// 	return 1;
-	// }
+	if (size < clusterCount && rank == 0){
+		printf("Insufficient number of processors (%d)\n", size);
+		return 1;
+	}
 
 	// Check if size of the input is less than the number of processors
-	if (sendbuf.size() < size){
+	if (sendbuf.size() < size && rank == 0){
 		printf("Size of the input (%ld) is less than the number of processors (%d)\n", sendbuf.size(), size);
 		return 1;
 	}
@@ -65,10 +65,10 @@ int main(int argc, char **argv)
 	// Check if size of the input is greater than the number of processors
 	// If yes, consider only first N numbers, where N is the number of processors
 	// TODO: uncomment
-	// if (sendbuf.size() > size){
-	// 	sendbuf.resize(size);
-	// 	sendbuf.erase(sendbuf.begin() + size, sendbuf.end());
-	// }
+	if (sendbuf.size() > size){
+		sendbuf.resize(size);
+		sendbuf.erase(sendbuf.begin() + size, sendbuf.end());
+	}
 
 	// K-means
 	// 1. Select 4 random distinct numbers (cluster means)
@@ -232,8 +232,8 @@ void points2cluster(std::vector<int> buffer, int clusterCount, Cluster clusters[
 	{
 		// Find min distance from clusters means
 		int cIndex = 0;
-		float minDist = MAXFLOAT;
-		for (int i = 0; i < clusterCount; ++i)
+		float minDist = std::abs(x - clusters[0].mean);
+		for (int i = 1; i < clusterCount; ++i)
 		{
 			float dist = std::abs(x - clusters[i].mean);
 			if (dist < minDist)
